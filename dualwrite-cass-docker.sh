@@ -69,9 +69,9 @@ function memory(){
 
 function count(){
   echo "Cass 2x - 128.18.0.21 - keys count: "
-  docker exec -ti cassandra2x_1 sh -c "echo \"select COUNT(*) from cluster_test.test ;\" | /cassandra/bin/cqlsh 128.18.0.21"
+  docker exec -ti cassandra2x_1 sh -c "echo \"select COUNT(*) from cluster_test.test ;\" | /cassandra/bin/cqlsh --request-timeout=6000 128.18.0.21"
   echo "Cass 3x - 128.18.0.31 - keys count: "
-  docker exec -ti cassandra3x_1 sh -c "echo \"select COUNT(*) from cluster_test.test ;\" | /cassandra/bin/cqlsh 128.18.0.31"
+  docker exec -ti cassandra3x_1 sh -c "echo \"select COUNT(*) from cluster_test.test ;\" | /cassandra/bin/cqlsh --request-timeout=6000 128.18.0.31"
 }
 
 function schema(){

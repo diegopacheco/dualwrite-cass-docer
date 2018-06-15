@@ -64,7 +64,7 @@ function memory(){
   memory21=$(docker exec -ti cassandra2x_1 /bin/sh -c "ps aux | awk '{print \$6/1024 \" MB\t\t\" \$11}'  | sort -n | grep java | awk '{print \$1 \" \" \$2}'")
   memory31=$(docker exec -ti cassandra3x_1 /bin/sh -c "ps aux | awk '{print \$6/1024 \" MB\t\t\" \$11}'  | sort -n | grep java | awk '{print \$1 \" \" \$2}'")
   echo "|Cass 2x - 128.18.0.21 -> $memory21 "
-  echo "Cass 3x - 128.18.0.31 -> $memory31 "
+  echo "|Cass 3x - 128.18.0.31 -> $memory31 "
 }
 
 function schema(){

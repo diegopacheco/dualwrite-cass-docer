@@ -13,16 +13,19 @@ RUN apt-get update && apt-get install -y \
 	unzip
 
 # Install Java 8
-RUN wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz"
-RUN tar -xzvf jdk-8u161-linux-x64.tar.gz
-RUN rm -rf jdk-8u161-linux-x64.tar.gz
-RUN echo "alias cls='clear'\nexport JAVA_HOME=~/jdk1.8.0_161\nexport JRE_HOME=~/jdk1.8.0_161/jre\nexport PATH=$PATH:~/jdk1.8.0_161/bin:/~/jdk1.8.0_161/jre/bin" >> /etc/profile
+RUN wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz" && \
+	tar -xzvf jdk-8u171-linux-x64.tar.gz  && \
+	rm -rf jdk-8u171-linux-x64.tar.gz && \
+  echo "alias cls='clear'\nexport JAVA_HOME=~/jdk1.8.0_171\nexport JRE_HOME=~/jdk1.8.0_171/jre\nexport PATH=$PATH:~/jdk1.8.0_171/bin:/~/jdk1.8.0_171/jre/bin" >> /etc/profile
 
 # Install Cassandra 2.2
+WORKDIR /
+RUN mkdir /cassandra/ && chmod 777 /cassandra/
 RUN wget https://archive.apache.org/dist/cassandra/2.2.12/apache-cassandra-2.2.12-bin.tar.gz
 RUN tar -xzvf apache-cassandra-2.2.12-bin.tar.gz
 RUN rm -rf apache-cassandra-2.2.12-bin.tar.gz
-RUN mv apache-cassandra-2.2.12/ /cassandra/
+RUN cp -rp /apache-cassandra-2.2.12/* /cassandra/
+RUN rm -rf /apache-cassandra-2.2.12/
 
 # Configure the cluster
 ADD start-cass.sh  /cassandra/

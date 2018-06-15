@@ -31,6 +31,7 @@ RUN rm -rf /apache-cassandra-3.9/
 ADD start-cass.sh  /cassandra/
 RUN chmod +x /cassandra/start-cass.sh
 ADD cassandra-3.9.yaml /cassandra/conf/cassandra.yaml
+ADD cassandra-env.sh /cassandra/conf/cassandra-env.sh
 
 EXPOSE 9160
 EXPOSE 9042

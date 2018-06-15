@@ -60,6 +60,13 @@ function ssh(){
   docker exec -ti $docker_instance bash
 }
 
+function memory(){
+  memory21=$(docker exec -ti cassandra2x_1 /bin/sh -c "ps aux | awk '{print \$6/1024 \" MB\t\t\" \$11}'  | sort -n | grep java | awk '{print \$1 \" \" \$2}'")
+  memory31=$(docker exec -ti cassandra3x_1 /bin/sh -c "ps aux | awk '{print \$6/1024 \" MB\t\t\" \$11}'  | sort -n | grep java | awk '{print \$1 \" \" \$2}'")
+  echo "|Cass 2x - 128.18.0.21 -> $memory21 "
+  echo "Cass 3x - 128.18.0.31 -> $memory31 "
+}
+
 function schema(){
   docker exec -ti cassandra2x_1 sh -c "echo \"
    CREATE KEYSPACE CLUSTER_TEST WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
@@ -88,16 +95,17 @@ function info(){
 
 function help(){
   echo "DualWrite-Cass-Docker: by Diego Pacheco"
-  echo "bake                 : bake the docker image for Cass 2.x and 3.x "
-  echo "run                  : run 2 Cass clusters(cass 2x and cass 3x)   "
-  echo "stop                 : shutdown all dockers instances and network "
-  echo "status2x             : nodetool status in all cass 2x nodes       "
-  echo "status3x             : nodetool status in all cass 3x nodes       "
-  echo "cql2x                : cqlsh in first cass 3x node                "
-  echo "cql3x                : cqlsh in first cass 2x node                "
+  echo "bake                 : bake the docker image for Cass 2.x and 3.x   "
+  echo "run                  : run 2 Cass clusters(cass 2x and cass 3x)     "
+  echo "stop                 : shutdown all dockers instances and network   "
+  echo "status2x             : nodetool status in all cass 2x nodes         "
+  echo "status3x             : nodetool status in all cass 3x nodes         "
+  echo "cql2x                : cqlsh in first cass 3x node                  "
+  echo "cql3x                : cqlsh in first cass 2x node                  "
+  echo "memory               : Show how much memory each cass node is using "
   echo "ssh                  : SSH/Bash Cass Node. i.e: ssh 3 1 for cass3x node 1 - ssh 2 1 for cass2x node 1 "
-  echo "schema               : create same schema for cass 2x and 3x      "
-  echo "info                 : show info about cass 2x and 3x topology    "
+  echo "schema               : create same schema for cass 2x and 3x        "
+  echo "info                 : show info about cass 2x and 3x topology      "
 }
 
 case $1 in
@@ -121,6 +129,9 @@ case $1 in
           ;;
       "cql3x")
           cql3x
+          ;;
+      "memory")
+          memory
           ;;
       "ssh")
           ssh

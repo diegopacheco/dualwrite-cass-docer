@@ -1,6 +1,8 @@
 #!/bin/bash
 
 ARG0=$2
+ARG1=$3
+ARG2=$4
 
 function bake(){
    cd cass3x/ && docker build -t diegopacheco/dwcass3x . --network=host && cd ../
@@ -49,6 +51,15 @@ function status3x(){
   docker exec -ti cassandra3x_3 /cassandra/bin/nodetool status
 }
 
+function ssh(){
+  version="${ARG0}"
+  node="${ARG1}"
+  docker_instance="cassandra${version}x_${node}"
+  docker_ip="128.18.0.${version}${node}"
+  echo "SSH Cassandra $docker_instance on IP $docker_ip"
+  docker exec -ti $docker_instance bash
+}
+
 function schema(){
   docker exec -ti cassandra2x_1 sh -c "echo \"
    CREATE KEYSPACE CLUSTER_TEST WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
@@ -84,6 +95,7 @@ function help(){
   echo "status3x             : nodetool status in all cass 3x nodes       "
   echo "cql2x                : cqlsh in first cass 3x node                "
   echo "cql3x                : cqlsh in first cass 2x node                "
+  echo "ssh                  : SSH/Bash Cass Node. i.e: ssh 3 1 for cass3x node 1 - ssh 2 1 for cass2x node 1 "
   echo "schema               : create same schema for cass 2x and 3x      "
   echo "info                 : show info about cass 2x and 3x topology    "
 }
@@ -109,6 +121,9 @@ case $1 in
           ;;
       "cql3x")
           cql3x
+          ;;
+      "ssh")
+          ssh
           ;;
       "schema")
           schema

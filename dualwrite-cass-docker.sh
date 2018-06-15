@@ -61,7 +61,6 @@ function schema(){
     CREATE KEYSPACE CLUSTER_TEST WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
     USE CLUSTER_TEST;
     CREATE TABLE TEST ( key text PRIMARY KEY, value text);
-    INSERT INTO TEST (key,value) VALUES ('1', 'works');
     SELECT * from CLUSTER_TEST.TEST;\" | /cassandra/bin/cqlsh 128.18.0.31"
 }
 

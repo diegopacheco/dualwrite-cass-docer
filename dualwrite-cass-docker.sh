@@ -65,6 +65,17 @@ function schema(){
     SELECT * from CLUSTER_TEST.TEST;\" | /cassandra/bin/cqlsh 128.18.0.31"
 }
 
+function info(){
+  echo "Cass 2.2.12 Topology: "
+  echo "--- 128.18.0.21"
+  echo "--- 128.18.0.22"
+  echo "--- 128.18.0.23"
+  echo "Cass 3.9 Topology: "
+  echo "--- 128.18.0.31"
+  echo "--- 128.18.0.32"
+  echo "--- 128.18.0.33"
+}
+
 function help(){
   echo "DualWrite-Cass-Docker: by Diego Pacheco"
   echo "bake                 : bake the docker image for Cass 2.x and 3.x "
@@ -75,6 +86,7 @@ function help(){
   echo "cql2x                : cqlsh in first cass 3x node                "
   echo "cql3x                : cqlsh in first cass 2x node                "
   echo "schema               : create same schema for cass 2x and 3x      "
+  echo "info                 : show info about cass 2x and 3x topology    "
 }
 
 case $1 in
@@ -101,6 +113,9 @@ case $1 in
           ;;
       "schema")
           schema
+          ;;
+      "info")
+          info
           ;;
       *)
           help

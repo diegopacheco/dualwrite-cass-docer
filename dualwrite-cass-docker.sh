@@ -74,6 +74,13 @@ function count(){
   docker exec -ti cassandra3x_1 sh -c "echo \"select COUNT(*) from cluster_test.test ;\" | /cassandra/bin/cqlsh --request-timeout=6000 128.18.0.31"
 }
 
+function truncate(){
+  echo "Cass 2x - 128.18.0.21 - TRUNCATE: "
+  docker exec -ti cassandra2x_1 sh -c "echo \"TRUNCATE cluster_test.test ;\" | /cassandra/bin/cqlsh --request-timeout=6000 128.18.0.21"
+  echo "Cass 3x - 128.18.0.31 - TRUNCATE: "
+  docker exec -ti cassandra3x_1 sh -c "echo \"TRUNCATE cluster_test.test ;\" | /cassandra/bin/cqlsh --request-timeout=6000 128.18.0.31"
+}
+
 function schema(){
   docker exec -ti cassandra2x_1 sh -c "echo \"
    CREATE KEYSPACE CLUSTER_TEST WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
@@ -113,6 +120,7 @@ function help(){
   echo "ssh                  : SSH/Bash Cass Node. i.e: ssh 3 1 for cass3x node 1 - ssh 2 1 for cass2x node 1 "
   echo "count                : Count how many records in Cass 2x and 3x     "
   echo "schema               : create same schema for cass 2x and 3x        "
+  echo "truncate             : truncate table TEST from cass 2x and 3x      "
   echo "info                 : show info about cass 2x and 3x topology      "
 }
 
@@ -149,6 +157,9 @@ case $1 in
           ;;
       "schema")
           schema
+          ;;
+      "truncate")
+          truncate
           ;;
       "info")
           info

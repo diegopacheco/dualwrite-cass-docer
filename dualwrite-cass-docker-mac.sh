@@ -98,9 +98,9 @@ function schema(){
 
 function info(){
   echo "Cass 2.2.12 Topology: "
-  echo "--- 128.18.0.21:30121"
-  echo "--- 128.18.0.22:30122"
-  echo "--- 128.18.0.23:30123"
+  echo "--- localhost:30121"
+  echo "--- localhost:30122"
+  echo "--- localhost:30123"
   echo "Cass 3.9 Topology: "
   echo "--- localhost:30131"
   echo "--- localhost:30132"
